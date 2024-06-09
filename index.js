@@ -1,29 +1,33 @@
 const express = require("express");
 const path = require("path");
-const userRouter = require("./routes/user");
-const connectToMongo  = require("./controllers/mongoConnection");
+const Blog = require("./models/blog");
+const userRoute = require("./routes/user");
+const blogRoute = require("./routes/blog");
+const connectToMongo = require("./controllers/mongoConnection");
+const cookieParser = require("cookie-parser");
+const { checkForAuthenticationCookie } = require("./middleware/authentication");
 
 const app = express();
 const port = 3000;
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
+
 app.use(express.urlencoded({ extended: true }));
-app.use("/",userRouter)
+// app.use(express.json());
+app.use(cookieParser());
+app.use(checkForAuthenticationCookie("token"));
+app.use(express.static(path.resolve("./public")));
 
-connectToMongo("mongodb://127.0.0.1:27017/blogify")
+app.use("/user", userRoute);
+app.use("/blog", blogRoute);
 
-app.get("/", (req, res) => {
-  res.render("home");
+connectToMongo("mongodb://127.0.0.1:27017/blogify");
+
+app.get("/", async (req, res) => {
+  const allBlogs = await Blog.find({})
+  res.render("home", { user: req.user , blogs:allBlogs});
 });
-
-// app.get("/signup", (req, res) => {
-//   res.render("signup");
-// });
-
-// app.get("/login", (req, res) => {
-//   res.render("login");
-// });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

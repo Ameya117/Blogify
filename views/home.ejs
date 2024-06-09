@@ -3,12 +3,35 @@
 
 <head>
     <%- include('./partials/head') %>
-    <%- include('./partials/scripts') %>
+        <%- include('./partials/scripts') %>
 </head>
+
 <body>
     <%- include('./partials/nav') %>
-    
+        <div class="grid grid-cols-3 mt-10">
+
+            <% blogs.forEach(blog=>{%>
+                <div class="text-gray-600 body-font border border-2 mx-10 w-fit">
+                    <div class="container mx-auto flex items-center justify-center flex-col">
+                        <div class="">
+
+                            <img class="h-[30vh] object-cover object-center rounded mx-auto" alt="hero"
+                        src=<%=blog.coverImage%>>
+                        </div>
+                        <div class="text-center w-full">
+                            <h1 class="title-font sm:text-xl md:text-2xl text-3xl mb-4 font-medium text-gray-900 mt-4">
+                                <%= blog.title %>
+                            </h1>
+
+                        </div>
+                        <a href="/blog/<%=blog._id%>" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-sm mb-4">Read
+                            more</a>
+                    </div>
+                </div>
+                <%})%>
+        </div>
 
 </body>
 
 </html>
+

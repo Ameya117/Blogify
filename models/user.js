@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-
 const userSchema = new Schema(
   {
     fullName: {
@@ -29,7 +28,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// userSchema.pre("create", function (next) {
+// userSchema.pre("save", function (next) {
 //   if (!this.isModified("password")) return next();
 //   bcrypt.hash(this.password, saltRounds, function (err, hash) {
 //     // Store hash in your password DB.
