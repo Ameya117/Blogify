@@ -17,12 +17,50 @@
             <div class="w-[80vw] mx-auto">
 
                 <h1 class="font-bold text-2xl text-center my-6">
-
                     <%= blog.title%>
                 </h1>
-                <p class="my-5">
-                    <%= blog.content%>
-                </p>
+                <div class="text-sm font-medium text-gray-600 flex flex-row">
+                    <img src="<%= blog.createdBy.profileImageUrl%>" alt="profile picture" width="50px">
+                    <h1 class="my-auto">
+                        <%= blog.createdBy.fullName%>
+                    </h1>
+                </div>
+                <div>
+                    <p>
+                        <%= blog.content%>
+                    </p>
+                </div>
+                <div class="my-8">
+
+                    <h2 class="text-2xl font-bold mb-2">Comments (<%= comments.length%>)</h2>
+                    <div>
+                        <% comments.forEach(comment=>{
+                            %>
+                            <div class="flex flex-row my-4">
+                                <img src="<%= comment.createdBy.profileImageUrl%>" alt="profile picture" width="50px">
+                                <div class="ml-2">
+                                    <h1 class="font-bold">
+                                        <%= comment.createdBy.fullName%>
+                                    </h1>
+                                    <p>
+                                        <%= comment.content%>
+                                    </p>
+                                </div>
+                            </div>
+                            <% })%>
+                    </div>
+                    <% if(locals.user){%>
+                        <form action="/blog/comment/<%= blog._id%>" method="post">
+                            <textarea name="content" id="content" class="w-full h-[20vh] bg-slate-100 rounded-md p-2"
+                                placeholder="Add a comment..."></textarea>
+                            <button type="submit"
+                                class="px-2 py-1 bg-blue-600 hover:bg-blue-500 rounded-sm text-white">Comment</button>
+                        </form>
+                        <% }else{ %>
+                            <p class="text-gray-600">Please login to comment</p>
+                            <% }%>
+
+                </div>
             </div>
         </div>
 </body>

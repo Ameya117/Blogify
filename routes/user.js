@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
       password: hash,
     });
   });
-  return res.render("/login");
+  return res.render("login");
 });
 
 router.post("/login", async (req, res) => {
